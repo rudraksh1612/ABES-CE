@@ -1,0 +1,73 @@
+<html>
+    <head>
+        <style>
+            .sright{
+                height: auto;
+                border: 0px solid blue;
+                width: 50%;
+                float: left;
+            }
+            .sleft{
+                border: 0px solid rgb(43, 255, 0);
+                height:auto;
+                width: 50%;
+                float: right;
+            }
+        </style>
+    </head>
+<body>
+    <div style="border: 5px; font-size: 25px;">
+        <table>
+            <td><img src="bus.webp" alt="bus" width="100px"></td>
+           <td><h2>Booking Sheet</h2></td> 
+        </table>
+    </div>
+    <div>
+    <div class="sright">
+        <h1 align="center">Welcome to Bus Booking System</h1>
+
+        <form align="center">
+            <h3>User Details</h3>
+
+        <table align="center">
+        
+            <tr>
+                <td><label for="name">User Name</label></td>
+                <td><input type="text" id="name" name="name" placeholder="Enter your user name"></td>
+            </tr>
+            <tr>
+                <td><label for="password">User Password</label></td>
+                <td><input type="password" id="password" name="password" placeholder="Enter your password"></td>
+            </tr>
+            <tr>
+                <td><label for="">User Gender</label></td>
+                <td><input type="radio" name="gender">
+                    <label for="">Male</label>
+                </td>
+            </tr>
+            <tr><td></td>
+                <td><input type="radio" name="gender">
+                    <label for="">Female</label>
+                </td>
+            </tr>
+            <tr><td><label for="">User City</label></td>
+            <td><select>
+                <option>Select Your City</option>
+                <option>Delhi</option>
+                <option>Noida</option>
+                <option>Gurgaon</option>
+                <option>Faridabad</option>
+                <option>Ghaziabad</option>
+            </select></td></tr>
+            <tr><td><button>Clear</button></td>
+                <td><button>Book Sheet</button></td>
+            </tr>
+        
+        </table>
+        </form>
+    </div>
+    <div class="sleft">
+        <img src="bus.webp" alt="img" width="auto" height="auto">
+    </div></div>
+</body>
+</html>
