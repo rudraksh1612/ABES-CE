@@ -6,12 +6,30 @@
             border: 50px;
             width: 800px;
             height: 700px;
-            background-color: red;
+            
         }
     </style>
 </head>
-<body>
-    <div id="hi">
+<body id="hi">
+    <button onclick="green()">Green</button>
+    <button onclick="blue()">Blue</button>
+    <button onclick="red()">Red</button>
+    <script>
+        function red(){
+            document.getElementById("hi").style.background="red";
+        }
+         function green(){
+            document.getElementById("hi").style.background="green";
+        }
+         function blue(){
+            document.getElementById("hi").style.background="blue";
+        }
+    </script>
+
+
+
+
+    <!-- <div id="hi">
         <button onclick="myfun()">click</button>
         <p id="aaa"></p>
     </div>
@@ -19,6 +37,6 @@
     function myfun(){
         document.getElementById("aaa").innerHTML="hello world";
     }
-    </script>   
+    </script>    -->
 </body>
 </html>
