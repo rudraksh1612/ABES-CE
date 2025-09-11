@@ -1,0 +1,76 @@
+<html>
+<head>    
+    <title>Document</title>
+    <style>
+        h1{
+            text-align: center;
+        }
+        #hi{
+            margin-top: 120px;
+            width: 1000px;
+            height: 400px;
+            background-color: rgb(240, 68, 68);
+            padding-top: 20px;
+        }
+        #bye{
+            width: 500px;
+            height: 700px;
+            background-color: rgb(255, 255, 255);
+            float: left;
+        }
+        img{
+            border-radius: 50%;
+            height: 90px;
+            width: 90px;
+            
+        }
+        button{
+            width: 50px;
+            height: 50px;
+            font-size: 30px;
+            margin: 20px;
+            align-items: center;
+            text-align: center;
+            margin-top: 50px;
+            
+        }
+        
+    </style>
+</head>
+<body>
+    <div id ="bye"></div>
+    <div id="hi">
+    <h1>Counter app</h1>
+    <center>
+    <img src="imh.webp" alt="">
+    </center>
+    <center>
+    <h1></h1>
+    <button onclick="decrement()">-</button>
+    <button onclick="increment()">+</button>
+    </center>
+</div>
+
+<script>
+    var count = 0;
+    function increment(){
+        count += 1;
+        if(count > 10){
+            alert("count is greater than 10");
+            count = 0;
+        }
+        else{
+        document.querySelector("h1:nth-of-type(2)").innerText = count;
+    }}
+    function decrement(){
+        count -= 1;
+        if(count < 0){
+            alert("count is less than 0");
+            count = 0;
+        }
+        else{
+        document.querySelector("h1:nth-of-type(2)").innerText = count;
+    }}
+</script>
+</body>
+</html>

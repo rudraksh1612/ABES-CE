@@ -1,0 +1,57 @@
+
+<html>
+<head>    
+    <title>Document</title>
+    <style>
+        h1{
+            text-align: center;
+        }
+        #hi{
+            margin-top: 120px;
+            width: 1000px;
+            height: 400px;
+            background-color: rgb(37, 37, 195);
+            padding-top: 20px;
+        }
+        #bye{
+            width: 500px;
+            height: 700px;
+            background-color: rgb(255, 255, 255);
+            float: left;
+        }
+        img{
+            border: 20px;
+            height: 150px;
+            width: 150px;
+           
+        }
+        button{
+            width: 50px;
+            height: 50px;
+            margin: 50px;
+            align-items: center;
+            text-align: center;
+            margin-top: 50px;
+            
+        }
+        
+    </style>
+</head>
+<body>
+    <div id ="bye"></div>
+    <div id="hi">
+    
+    <center>
+    <img id="ad" src="imh.webp" alt="">
+    </center>
+    
+<center><button onclick="hideImage()">Hide Image</button></center>
+
+</div>
+    <script>
+        function hideImage() {
+            document.getElementById('ad').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
