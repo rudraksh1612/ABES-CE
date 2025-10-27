@@ -1,0 +1,28 @@
+<html lang="en">
+<head>
+
+</head>
+<body>
+    <script>
+        function getData(dataid, getnextdata){
+            setTimeout(() => {
+                console.log("fetching data from db");
+                let data={
+                    name:"abes",
+                    age:23
+                }
+                getnextdata(data);
+            }, 3000);
+
+            getData(1,()=>{
+                getData(2,()=>{
+                    getData(3,()=>{
+                       getData(4);
+                    }); 
+                });
+            });
+        }
+    </script>
+    
+</body>
+</html>

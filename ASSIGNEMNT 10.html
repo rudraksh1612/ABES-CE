@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Simple To-Do List</title>
+  <style>
+    :root{--bg:#0f172a;--card:#0b1220;--muted:#94a3b8;--accent:#06b6d4;--danger:#ef4444}
+    *{box-sizing:border-box}
+    body{font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;background:linear-gradient(180deg,#071129 0%, #07183a 100%);color:#e6eef8}
+    .container{width:100%;max-width:720px;padding:28px}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:12px;padding:20px;box-shadow:0 8px 30px rgba(2,6,23,0.7)}
+    h1{margin:0 0 8px;font-size:20px}
+    p.subtitle{margin:0 0 18px;color:var(--muted)}
+
+    .input-row{display:flex;gap:8px}
+    input[type=text]{flex:1;padding:10px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:inherit;font-size:15px;outline:none}
+    button.btn{padding:10px 14px;border-radius:8px;border:none;background:var(--accent);color:#042026;font-weight:600;cursor:pointer}
+    button.btn:active{transform:translateY(1px)}
+
+    ul.todo-list{list-style:none;margin:18px 0 0;padding:0;display:flex;flex-direction:column;gap:8px}
+    li.todo-item{display:flex;align-items:center;gap:10px;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent)}
+    li.todo-item.completed{opacity:0.6;text-decoration:line-through}
+    .todo-text{flex:1}
+    .actions{display:flex;gap:8px}
+    .icon-btn{background:transparent;border:1px solid rgba(255,255,255,0.03);padding:6px;border-radius:6px;cursor:pointer;color:var(--muted)}
+    .clear-all{margin-top:12px;background:transparent;border:1px dashed rgba(255,255,255,0.04);padding:8px;border-radius:8px;color:var(--muted);cursor:pointer}
+
+    .hint{margin-top:10px;color:var(--muted);font-size:13px}
+    @media (max-width:480px){.container{padding:16px}.card{padding:16px}}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <h1>To Do List</h1>
+      <p class="subtitle">Add tasks, mark complete, delete. Data persists in your browser.</p>
+
+      <div class="input-row">
+        <input id="taskInput" type="text" placeholder="Add a new task and press Add or Enter" />
+        <button id="addBtn" class="btn">Add</button>
+      </div>
+
+      <ul id="todoList" class="todo-list" aria-live="polite"></ul>
+
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px">
+        <button id="clearCompleted" class="clear-all">Clear Completed</button>
+        <button id="clearAll" class="clear-all">Clear All</button>
+      </div>
+
+      <p class="hint">Tip: Click the checkbox to toggle complete. Double click a task to edit it.</p>
+    </div>
+  </div>
+
+  <script>
+    // Simple todo list with localStorage persistence
+    const taskInput = document.getElementById('taskInput');
+    const addBtn = document.getElementById('addBtn');
+    const todoList = document.getElementById('todoList');
+    const clearAllBtn = document.getElementById('clearAll');
+    const clearCompletedBtn = document.getElementById('clearCompleted');
+
+    let todos = JSON.parse(localStorage.getItem('todos') || '[]');
+
+    function save() {
+      localStorage.setItem('todos', JSON.stringify(todos));
+    }
+
+    function render() {
+      todoList.innerHTML = '';
+      if (todos.length === 0) {
+        const li = document.createElement('li');
+        li.className = 'todo-item';
+        li.textContent = 'No tasks yet. Add your first task!';
+        li.style.opacity = '0.6';
+        todoList.appendChild(li);
+        return;
+      }
+
+      todos.forEach((t, idx) => {
+        const li = document.createElement('li');
+        li.className = 'todo-item' + (t.done ? ' completed' : '');
+
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.checked = !!t.done;
+        checkbox.addEventListener('change', () => {
+          todos[idx].done = checkbox.checked;
+          save();
+          render();
+        });
+
+        const span = document.createElement('div');
+        span.className = 'todo-text';
+        span.textContent = t.text;
+        span.title = 'Double click to edit';
+        span.addEventListener('dblclick', () => editTask(idx));
+
+        const actions = document.createElement('div');
+        actions.className = 'actions';
+
+        const delBtn = document.createElement('button');
+        delBtn.className = 'icon-btn';
+        delBtn.textContent = 'Delete';
+        delBtn.addEventListener('click', () => {
+          todos.splice(idx, 1);
+          save();
+          render();
+        });
+
+        actions.appendChild(delBtn);
+
+        li.appendChild(checkbox);
+        li.appendChild(span);
+        li.appendChild(actions);
+
+        todoList.appendChild(li);
+      });
+    }
+
+    function addTask() {
+      const text = taskInput.value.trim();
+      if (!text) return;
+      todos.push({ text, done: false });
+      taskInput.value = '';
+      save();
+      render();
+      taskInput.focus();
+    }
+
+    function editTask(idx) {
+      const newText = prompt('Edit task', todos[idx].text);
+      if (newText === null) return; // cancel
+      const trimmed = newText.trim();
+      if (!trimmed) return alert('Task cannot be empty');
+      todos[idx].text = trimmed;
+      save();
+      render();
+    }
+
+    addBtn.addEventListener('click', addTask);
+    taskInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') addTask(); });
+
+    clearAllBtn.addEventListener('click', () => {
+      if (!confirm('Clear all tasks?')) return;
+      todos = [];
+      save();
+      render();
+    });
+
+    clearCompletedBtn.addEventListener('click', () => {
+      todos = todos.filter(t => !t.done);
+      save();
+      render();
+    });
+
+    // initial render
+    render();
+  </script>
+</body>
+</html>
